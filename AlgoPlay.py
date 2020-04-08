@@ -195,16 +195,19 @@ def quickAlgo(y,start,end):
     yield from quickAlgo(y, pivotIdx + 1, end)
 
 def visualizeSearching(x,y,title):
-    def resetClicked():
+    def resetSearchClicked():
         global canvasVisible
         global rstclicked
+        global label3
+
         rstclicked=False
         if canvasVisible == True:
             canvas.get_tk_widget().destroy()
+            label3.destroy()
             canvasVisible=False
 
     global canvasVisible
-    global label3
+
     canvasVisible = True
     width = 0.40
     fig = Figure(figsize=(13, 6), dpi=100)
@@ -218,10 +221,10 @@ def visualizeSearching(x,y,title):
     text.set_text("No of Operations: {}".format(loop))
 
     if flag:
-
         rects[index].set_color('r')
-    else:
-        label3 = Label(root, text='Number Not Found!!!', font=("Helvetica", 18)).place(x=660, y=10)
+    elif not flag:
+        label3 = Label(root, text='Number Not Found!!!', font=("Helvetica", 18))
+        label3.place(x=660, y=10)
 
 
     canvas.draw()
@@ -235,17 +238,19 @@ def visualizeSearching(x,y,title):
     canvas.get_tk_widget().pack(expand=1)
 
 
-    resetButton = Button(root, text='Reset', command=resetClicked)
-    resetButton.place(x=400, y=10)
+    resetserchButton = Button(root, text='Reset', command=resetSearchClicked)
+    resetserchButton.place(x=400, y=10)
 
 
-def visualize(x,y,generator,title):
+def visualize(x, y, generator, title):
     def resetClicked():
         global canvasVisible
         global rstclicked
+        global label3
 
         rstclicked=False
         if canvasVisible == True:
+            label3.destroy()
             canvas.get_tk_widget().destroy()
             canvasVisible=False
 
@@ -286,9 +291,7 @@ def linearSearchClicked():
     global label1
     global startButton
     global entry1
-    global label3
 
-    label3.destroy()
     entry1.destroy()
     startButton.destroy()
     label1.destroy()
@@ -337,8 +340,8 @@ def binarySearchClicked():
     global label1
     global startButton
     global entry1
-    global label3
-    label3.destroy()
+    #global label3
+   # label3.destroy()
     entry1.destroy()
     startButton.destroy()
     label1.destroy()
@@ -587,7 +590,7 @@ root.state('zoomed')
 entry1 = Entry(root)
 startButton = Button(root, text='')
 label1 = Label(root, text='')
-label3 = Label(root, text='')
+label3 = Label(root, text='', font=("Helvetica", 18))
 
 
 menu = Menu(root)
