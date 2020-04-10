@@ -335,7 +335,7 @@ def linearSearchClicked():
     label1.place(x=180, y=10)
 
     entry1 = Entry(root)
-    entry1.place(x=345, y=10, width=30)
+    entry1.place(x=355, y=10, width=30)
 
     def startLSrchClicked():
         global rstclicked
@@ -385,7 +385,7 @@ def binarySearchClicked():
     label1.place(x=180, y=10)
 
     entry1 = Entry(root)
-    entry1.place(x=345, y=10, width=30)
+    entry1.place(x=355, y=10, width=30)
 
     def startBSrchClicked():
         global rstclicked
