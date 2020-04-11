@@ -1,6 +1,4 @@
-
 from tkinter import *
-#from tkinter.ttk import *
 from tkinter import messagebox
 from matplotlib import animation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -15,12 +13,8 @@ loop = 0
 index = 0
 flag = True
 
-
-
 def widgetsDestroy():
     global searchLabel, linearButton, binaryButton, sortLabel, bubbleSortButton, selectionSortButton, insertionSortButton, heapSortButton, mergeSortButton, quickSortButton
-
-
     searchLabel.destroy()
     linearButton.destroy()
     binaryButton.destroy()
@@ -47,14 +41,12 @@ def linearSearchAlgo(y,key):
     flag = True
     loop = 0
     index = 0
-
     for i in y:
         loop+=1
         if i == key:
            #print(k)
             break
         index+=1
-
     else:
         flag = False
 
@@ -68,7 +60,6 @@ def binarySearchAlgo(y,key):
     index = 0
     first = 0
     last = len(y) - 1
-
     while (first <= last and flag):
         loop+=1
         #to get floor number
@@ -84,13 +75,9 @@ def binarySearchAlgo(y,key):
     if first>last:
         flag=False
 
-
 def bubbleAlgo(y):
-
-
     if len(y) == 1:
         return
-
     swapped = True
     for i in range(len(y) - 1):
         if not swapped:
@@ -105,7 +92,6 @@ def bubbleAlgo(y):
 def selectionAlgo(y):
     if len(y) == 1:
         return
-
     for i in range(len(y)):
         # Find minimum unsorted value.
         minVal = y[i]
@@ -132,29 +118,21 @@ def heapify(y,n,i):
     l = 2 * i + 1
     # rightChild
     r = 2 * i + 2
-
     if l < n and y[i] < y[l]:
         largest = l
-
-
     if r < n and y[largest] < y[r]:
         largest = r
-
-
     if largest != i:
        swap(y,i,largest)
        yield y
        yield from heapify(y, n, largest)
-
     yield y
 
 def heapAlgo(y):
     n = len(y)
-
     #maxheap.
     for i in range(n, -1, -1):
         yield from heapify(y, n, i)
-
     #deleting Data From maxheap
     for i in range(n - 1, 0, -1):
         swap(y,i,0)
@@ -165,7 +143,6 @@ def mergesort(y,start,mid,end):
     merged = []
     leftIdx = start
     rightIdx = mid + 1
-
     while leftIdx <= mid and rightIdx <= end:
         if y[leftIdx] < y[rightIdx]:
             merged.append(y[leftIdx])
@@ -173,15 +150,12 @@ def mergesort(y,start,mid,end):
         else:
             merged.append(y[rightIdx])
             rightIdx += 1
-
     while leftIdx <= mid:
         merged.append(y[leftIdx])
         leftIdx += 1
-
     while rightIdx <= end:
         merged.append(y[rightIdx])
         rightIdx += 1
-
     for i, sorted_val in enumerate(merged):
         y[start + i] = sorted_val
         yield y
@@ -190,7 +164,6 @@ def mergesort(y,start,mid,end):
 def mergeAlgo(y,start,end):
     if end <= start:
         return
-
     mid = start + ((end - start + 1) // 2) - 1
     yield from mergeAlgo(y, start, mid)
     yield from mergeAlgo(y, mid + 1, end)
@@ -199,10 +172,8 @@ def mergeAlgo(y,start,end):
 def quickAlgo(y,start,end):
     if start >= end:
         return
-
     pivot = y[end]
     pivotIdx = start
-
     for i in range(start, end):
         if y[i] < pivot:
             swap(y, i, pivotIdx)
@@ -210,7 +181,6 @@ def quickAlgo(y,start,end):
         yield y
     swap(y, end, pivotIdx)
     yield y
-
     yield from quickAlgo(y, start, pivotIdx - 1)
     yield from quickAlgo(y, pivotIdx + 1, end)
 
@@ -218,14 +188,11 @@ def visualizeSearching(x,y,title):
     def resetSearchClicked():
         global canvasVisible
         global rstclicked
-
-
         rstclicked=False
         if canvasVisible == True:
             canvas.get_tk_widget().destroy()
             label3.destroy()
             canvasVisible=False
-
     global resetserchButton
     global canvasVisible
     global label3
@@ -236,49 +203,37 @@ def visualizeSearching(x,y,title):
     rects = ax.bar(x, y, width, color='#5F9F9F', yerr=None)
     #to display the iteration
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
-
     fig.suptitle(title)
     canvas = FigureCanvasTkAgg(fig, root)
     text.set_text("No of Operations: {}".format(loop))
-
     if flag:
         rects[index].set_color('r')
     elif not flag:
         label3 = Label(root, text='Number Not Found!!!', font=("Helvetica", 18))
         label3.place(x=660, y=10)
-
-
     canvas.draw()
-
     for rect in rects:
         height = rect.get_height()
         ax.text(rect.get_x() + rect.get_width() / 2., height + 1,
                 '%d' % int(height),
                 ha='center', va='bottom')
-
     canvas.get_tk_widget().pack(expand=1)
-
-
     resetserchButton = Button(root, text='Reset', command=resetSearchClicked)
     resetserchButton.place(x=400, y=10)
-
 
 def visualize(x, y, generator, title):
     def resetClicked():
         global canvasVisible
         global rstclicked
         global label3
-
         rstclicked=False
         if canvasVisible == True:
             label3.destroy()
             canvas.get_tk_widget().destroy()
             canvasVisible=False
-
     global canvasVisible
     global resetButton
     canvasVisible = True
-    #ind = np.arange(length)
     width = 0.40
     fig = Figure(figsize=(13, 6), dpi=100)
     ax = fig.add_subplot(111)
@@ -286,26 +241,17 @@ def visualize(x, y, generator, title):
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
     fig.suptitle(title)
     canvas = FigureCanvasTkAgg(fig, root)  # A tk DrawingArea.
-
     def updateFig(y, rects, iteration):
-
         # zip joins x and y coordinates in pairs
         for rect, val in zip(rects, y):
             rect.set_height(val)
         iteration[0] += 1
         text.set_text("No of Operations: {}".format(iteration[0]))
-
-
-
-
-
     anima = animation.FuncAnimation(fig, func=updateFig,
                             fargs=(rects, iteration), frames=generator, interval=1,
                             repeat=False)
     canvas.draw()
-
     canvas.get_tk_widget().pack(expand=1)
-
     resetButton = Button(root, text='Reset', command=resetClicked)
     resetButton.place(x=400, y=10)
 
@@ -322,42 +268,28 @@ def linearSearchClicked():
     startButton.destroy()
     label1.destroy()
     root.title("LinearSearch")
-
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20,y=10)
-
     entry = Entry(root)
     entry.place(x=130,y=10,width=30)
-
-
-
     label1 = Label(root, text='Number Tobe Search(Max: 100)')
     label1.place(x=180, y=10)
-
     entry1 = Entry(root)
     entry1.place(x=355, y=10, width=30)
 
     def startLSrchClicked():
         global rstclicked
-
-
         length = int(entry.get())
         key = int(entry1.get())
         if length<=50 and key<=100 and rstclicked==False:
-            # inserting random integers in array with size 30 from 1 to 100.
+            # inserting random integers in array with size length from 1 to 100.
             y = np.random.randint(1, 101, length)
             x = np.arange(1, length + 1, 1)
             linearSearchAlgo(y,key)
             visualizeSearching(x, y,"LinearSearch\nTime Complexity: O(n)")
-            #print(y)
-
             rstclicked=True
-        # label3 = Label(root, text = length +" "+ key)
-        # label3.pack()
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
-
     startButton = Button(root,text='Start', command=startLSrchClicked)
     startButton.place(x=480, y=10)
 
@@ -374,19 +306,14 @@ def binarySearchClicked():
     startButton.destroy()
     label1.destroy()
     root.title("BinarySearch")
-
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     label1 = Label(root, text='Number Tobe Search(Max: 100)')
     label1.place(x=180, y=10)
-
     entry1 = Entry(root)
     entry1.place(x=355, y=10, width=30)
-
     def startBSrchClicked():
         global rstclicked
         length = int(entry.get())
@@ -400,13 +327,8 @@ def binarySearchClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startBSrchClicked)
     startButton.place(x=480, y=10)
-
-
-
-
 
 def bubbleSortClicked():
     widgetsDestroy()
@@ -417,21 +339,17 @@ def bubbleSortClicked():
     global entry1
     global label3
     label3.destroy()
-
     entry1.destroy()
     startButton.destroy()
     label1.destroy()
     root.title("BubbleSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-   # print(label)
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startBSClicked():
         global rstclicked
         global iteration
-
         iteration[0] = 0
         length = int(entry.get())
         if length <= 50 and rstclicked==False:
@@ -442,9 +360,9 @@ def bubbleSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startBSClicked)
     startButton.place(x=480, y=10)
+
 def selectionSortClicked():
     widgetsDestroy()
     global label
@@ -460,10 +378,8 @@ def selectionSortClicked():
     root.title("SelectionSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startSSClicked():
         global rstclicked
         global iteration
@@ -477,7 +393,6 @@ def selectionSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startSSClicked)
     startButton.place(x=480, y=10)
 
@@ -496,10 +411,8 @@ def insertionSortClicked():
     root.title("InsertionSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startInSClicked():
         global rstclicked
         global iteration
@@ -513,12 +426,10 @@ def insertionSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startInSClicked)
     startButton.place(x=480, y=10)
 
 def heapSortClicked():
-
     widgetsDestroy()
     global label
     global entry
@@ -530,14 +441,11 @@ def heapSortClicked():
     entry1.destroy()
     startButton.destroy()
     label1.destroy()
-
     root.title("HeapSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startHSClicked():
         global rstclicked
         global iteration
@@ -551,12 +459,10 @@ def heapSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startHSClicked)
     startButton.place(x=480, y=10)
 
 def mergeSortClicked():
-
     widgetsDestroy()
     global label
     global entry
@@ -568,15 +474,11 @@ def mergeSortClicked():
     entry1.destroy()
     startButton.destroy()
     label1.destroy()
-
-
     root.title("MergeSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startMSClicked():
         global rstclicked
         global iteration
@@ -590,12 +492,10 @@ def mergeSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startMSClicked)
     startButton.place(x=480, y=10)
 
 def quickSortClicked():
-
     widgetsDestroy()
     global label
     global entry
@@ -610,10 +510,8 @@ def quickSortClicked():
     root.title("QuickSort")
     label = Label(root, text='Array Size(Max: 50) ')
     label.place(x=20, y=10)
-
     entry = Entry(root)
     entry.place(x=130, y=10, width=30)
-
     def startQSClicked():
         global rstclicked
         global iteration
@@ -627,15 +525,12 @@ def quickSortClicked():
             rstclicked = True
         else:
             messagebox.showerror("Error", "Input is Invalid OR press Reset Button.")
-
     startButton = Button(root, text='Start', command=startQSClicked)
     startButton.place(x=480, y=10)
 
 
 root = Tk()
-
 root.title("AlgoPlay")
-#root.geometry("1000x650+150+20")
 root.state('zoomed')
 root.iconbitmap('images/logo.ico')
 
@@ -655,7 +550,6 @@ startButton = Button(root, text='')
 label=Label(root, text='')
 label1 = Label(root, text='')
 label3 = Label(root, text='')
-
 
 searchLabel = Label(root, text='Searching Algorithm', font = ('Comic Sans MS',20),fg = 'black')
 searchLabel.place(x=20, y=10)
