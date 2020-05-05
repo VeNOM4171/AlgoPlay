@@ -1,9 +1,9 @@
-from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, Label, Button, Entry, PhotoImage, Tk, Menu
 from matplotlib import animation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
+
 
 rstclicked=False
 canvasVisible=True
